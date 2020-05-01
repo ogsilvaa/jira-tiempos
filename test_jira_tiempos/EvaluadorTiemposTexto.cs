@@ -78,6 +78,28 @@ namespace test_jira_tiempos
             retorno = JiraTiempos.Evaluar($"{3 * 60 * 60 * 8 * 5 * 4 + 1 * 60 * 60 * 8 * 5 + 4 * 60 * 60 * 8 + 7 * 60 * 60 + 30 * 60 + 30}s");
             Assert.AreEqual("3M 1w 4d 7h 30m 30s", retorno);
             #endregion
+            #region Años
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 60 * 8 * 5 * 4 * 12}s");
+            Assert.AreEqual("2a", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 60 * 8 * 5 * 4 * 12+3 * 60 * 60 * 8 * 5 * 4}s");
+            Assert.AreEqual("2a 3M", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 60 * 8 * 5 * 4 * 12 + 3 * 60 * 60 * 8 * 5 * 4 + 2 * 60 * 60 * 8 * 5  }s");
+            Assert.AreEqual("2a 3M 2w", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 60 * 8 * 5 * 4 * 12 + 3 * 60 * 60 * 8 * 5 * 4 + 1 * 60 * 60 * 8 * 5 + 4 * 60 * 60 * 8  }s");
+            Assert.AreEqual("2a 3M 1w 4d", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 60 * 8 * 5 * 4 * 12 + 3 * 60 * 60 * 8 * 5 * 4 + 1 * 60 * 60 * 8 * 5 + 4 * 60 * 60 * 8 + 7 * 60 * 60 }s");
+            Assert.AreEqual("2a 3M 1w 4d 7h", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 60 * 8 * 5 * 4 * 12 + 3 * 60 * 60 * 8 * 5 * 4 + 1 * 60 * 60 * 8 * 5 + 4 * 60 * 60 * 8 + 7 * 60 * 60 + 30 * 60}s");
+            Assert.AreEqual("2a 3M 1w 4d 7h 30m", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 60 * 8 * 5 * 4 * 12 + 3 * 60 * 60 * 8 * 5 * 4 + 1 * 60 * 60 * 8 * 5 + 4 * 60 * 60 * 8 + 7 * 60 * 60 + 30 * 60 + 30}s");
+            Assert.AreEqual("2a 3M 1w 4d 7h 30m 30s", retorno);
+            #endregion
         }
         [TestMethod]
         public void Minutos()
@@ -132,6 +154,25 @@ namespace test_jira_tiempos
             retorno = JiraTiempos.Evaluar($"{3 * 60  * 8 * 5 * 4 + 1 * 60 * 8 * 5 + 4 * 60  * 8 + 7  * 60 + 30 }m");
             Assert.AreEqual("3M 1w 4d 7h 30m", retorno);
             #endregion
+            #region Años
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 8 * 5 * 4 * 12}m");
+            Assert.AreEqual("2a", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 60 * 8 * 5 * 4 * 12 + 3  * 60 * 8 * 5 * 4}m");
+            Assert.AreEqual("2a 3M", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 60 * 8 * 5 * 4 * 12 + 3  * 60 * 8 * 5 * 4 + 2  * 60 * 8 * 5  }m");
+            Assert.AreEqual("2a 3M 2w", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 60 * 8 * 5 * 4 * 12 + 3 * 60 * 8 * 5 * 4 + 1  * 60 * 8 * 5 + 4 * 60 * 8  }m");
+            Assert.AreEqual("2a 3M 1w 4d", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 60 * 8 * 5 * 4 * 12 + 3 * 60 * 8 * 5 * 4 + 1  * 60 * 8 * 5 + 4  * 60 * 8 + 7 * 60 }m");
+            Assert.AreEqual("2a 3M 1w 4d 7h", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 60 * 8 * 5 * 4 * 12 + 3  * 60 * 8 * 5 * 4 + 1  * 60 * 8 * 5 + 4  * 60 * 8 + 7  * 60 + 30 }m");
+            Assert.AreEqual("2a 3M 1w 4d 7h 30m", retorno);
+            #endregion
         }
         [TestMethod]
         public void Horas()
@@ -170,7 +211,22 @@ namespace test_jira_tiempos
             retorno = JiraTiempos.Evaluar($"{3  * 8 * 5 * 4 + 1  * 8 * 5 + 4 * 8 + 7 }h");
             Assert.AreEqual("3M 1w 4d 7h", retorno);
             #endregion
+            #region Años
+            retorno = JiraTiempos.Evaluar($"{2  * 8 * 5 * 4 * 12}h");
+            Assert.AreEqual("2a", retorno);
 
+            retorno = JiraTiempos.Evaluar($"{2  * 8 * 5 * 4 * 12 + 3  * 8 * 5 * 4}h");
+            Assert.AreEqual("2a 3M", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 8 * 5 * 4 * 12 + 3  * 8 * 5 * 4 + 2  * 8 * 5  }h");
+            Assert.AreEqual("2a 3M 2w", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 8 * 5 * 4 * 12 + 3  * 8 * 5 * 4 + 1  * 8 * 5 + 4 * 8  }h");
+            Assert.AreEqual("2a 3M 1w 4d", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 8 * 5 * 4 * 12 + 3  * 8 * 5 * 4 + 1  * 8 * 5 + 4 * 8 + 7  }h");
+            Assert.AreEqual("2a 3M 1w 4d 7h", retorno);
+            #endregion
         }
         [TestMethod]
         public void Dias()
@@ -196,6 +252,19 @@ namespace test_jira_tiempos
             retorno = JiraTiempos.Evaluar($"{3  * 5 * 4 + 1  * 5 + 4   }d");
             Assert.AreEqual("3M 1w 4d", retorno);
             #endregion
+            #region Años
+            retorno = JiraTiempos.Evaluar($"{2 * 5 * 4 * 12}d");
+            Assert.AreEqual("2a", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 5 * 4 * 12 + 3  * 5 * 4}d");
+            Assert.AreEqual("2a 3M", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 5 * 4 * 12 + 3  * 5 * 4 + 2  * 5  }d");
+            Assert.AreEqual("2a 3M 2w", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 5 * 4 * 12 + 3  * 5 * 4 + 1 * 5 + 4   }d");
+            Assert.AreEqual("2a 3M 1w 4d", retorno);
+            #endregion
         }
         [TestMethod]
         public void Semanas()
@@ -211,6 +280,16 @@ namespace test_jira_tiempos
             retorno = JiraTiempos.Evaluar($"{3 * 4 + 2   }w");
             Assert.AreEqual("3M 2w", retorno);
             #endregion
+            #region Años
+            retorno = JiraTiempos.Evaluar($"{2  * 4 * 12}w");
+            Assert.AreEqual("2a", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 4 * 12 + 3 * 4}w");
+            Assert.AreEqual("2a 3M", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2 * 4 * 12 + 3 * 4 + 2   }w");
+            Assert.AreEqual("2a 3M 2w", retorno);
+            #endregion
         }
         [TestMethod]
         public void Meses()
@@ -218,6 +297,21 @@ namespace test_jira_tiempos
             #region Meses
             var retorno = JiraTiempos.Evaluar($"{2}M");
             Assert.AreEqual("2M", retorno);
+            #endregion
+            #region Años
+            retorno = JiraTiempos.Evaluar($"{2  * 12}M");
+            Assert.AreEqual("2a", retorno);
+
+            retorno = JiraTiempos.Evaluar($"{2  * 12 + 3 }M");
+            Assert.AreEqual("2a 3M", retorno);
+            #endregion
+        }
+        [TestMethod]
+        public void Años()
+        {
+            #region Años
+            var retorno = JiraTiempos.Evaluar($"{2 }a");
+            Assert.AreEqual("2a", retorno);
             #endregion
         }
     }
