@@ -6,39 +6,70 @@ namespace jira_tiempos
 {
     public static class Calculos
     {
-        internal static List<string> PreparacionUnidades()
+        internal static IDictionary<EUnidad, int> Factor()
         {
-            var unidades = new List<string> { "s", "m", "h" };
+            var _factor = new Dictionary<EUnidad, int> {
+                            {EUnidad.Segundo,Constantes.Factores.SEGUNDO },
+                            {EUnidad.Minuto,Constantes.Factores.MINUTO },
+                            {EUnidad.Hora,Constantes.Factores.HORA },
+                            {EUnidad.Dia,Constantes.Factores.DIA },
+                            {EUnidad.Semana,Constantes.Factores.SEMANA },
+                            {EUnidad.Mes,Constantes.Factores.MES },
+                            {EUnidad.Año,Constantes.Factores.AÑO }
+                        };
+
+            return _factor;
+        }
+        internal static IDictionary<EUnidad, string> PreparacionUnidades()
+        {
+            var unidades = new Dictionary<EUnidad, string>
+            {
+                {EUnidad.Segundo,Constantes.Abreviaturas.Segundo },
+                {EUnidad.Minuto,Constantes.Abreviaturas.Minuto },
+                {EUnidad.Hora,Constantes.Abreviaturas.Hora },
+                {EUnidad.Dia,Constantes.Abreviaturas.Dia },
+                {EUnidad.Semana,Constantes.Abreviaturas.Semana },
+                {EUnidad.Mes,Constantes.Abreviaturas.Mes },
+                {EUnidad.Año,Constantes.Abreviaturas.Año }
+            };
             return unidades;
         }
 
-        internal static Dictionary<string, int> PreparacionValores(List<string> unidades)
+        internal static IDictionary<EUnidad, int> PreparacionValores(IDictionary<EUnidad, string> unidades)
         {
-            var valores = new Dictionary<string, int>();
+            return PreparacionValores<int>(unidades);
+        }
+        internal static IDictionary<EUnidad, T> PreparacionValores<T>(IDictionary<EUnidad, string> unidades)
+        {
+            var valores = new Dictionary<EUnidad, T>();
 
-            unidades.ForEach(u => { valores.Add(u, 0); });
+            unidades.Keys.ToList().ForEach(k => { valores.Add(k, default); });
             return valores;
         }
 
-        internal static int CalculoSegundos(Dictionary<string, int> valores)
+        internal static int CalculoSegundos(IDictionary<EUnidad, int> valores)
         {
-            var valorEnSegundos = valores["s"] +
-                valores["m"] * Constantes.MINUTO +
-                valores["h"] * Constantes.HORA;
+            var factores = Factor();
+            var valorEnSegundos = 0;
+            valores.Keys.ToList().ForEach(k =>
+            {
+                valorEnSegundos += valores[k] * factores[k];
+            });
+
             return valorEnSegundos;
         }
 
-        internal static Dictionary<string, int> SegmentacionValores(string cadena, Dictionary<string, int> valores, List<string> unidades)
+        internal static IDictionary<EUnidad, int> SegmentacionValores(string cadena, IDictionary<EUnidad, int> valores, IDictionary<EUnidad, string> unidades)
         {
             var tiempos = cadena.Split(' ').ToList();
             tiempos.ForEach(tiempo =>
             {
-                unidades.ForEach(unidad =>
+                unidades.Keys.ToList().ForEach(k =>
                 {
-                    if (tiempo.EndsWith(unidad))
+                    if (tiempo.EndsWith(unidades[k]))
                     {
-                        var valor = tiempo.Substring(0, tiempo.Length - unidad.Length);
-                        valores[unidad] = Convert.ToInt32(valor);
+                        var valor = tiempo.Substring(0, tiempo.Length - unidades[k].Length);
+                        valores[k] += Convert.ToInt32(valor);
                     }
                 });
             });

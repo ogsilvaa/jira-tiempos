@@ -1,4 +1,7 @@
-﻿namespace jira_tiempos
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace jira_tiempos
 {
     public static class JiraTiempos
     {
@@ -13,21 +16,39 @@
         }
         public static string Evaluar(int segundos)
         {
-            int _segundos, _minutos, _horas;
+            var unidades = Calculos.PreparacionUnidades();
+            var valores = Calculos.PreparacionValores(unidades);
+            var factores = Calculos.Factor();
 
-            _horas = segundos / Constantes.HORA;
-            _minutos = (segundos - (_horas * Constantes.HORA)) / Constantes.MINUTO;
-            _segundos = segundos - (_horas * Constantes.HORA) - (_minutos * Constantes.MINUTO);
+            var keys = unidades.Keys.ToList();
+            keys.Reverse();
 
-            return Texto(_segundos, _minutos, _horas);
+            keys.ForEach(k =>
+            {
+                valores[k] = segundos / factores[k];
+                segundos -= valores[k] * factores[k];
+            });
+
+            return Texto(valores);
         }
-        public static string Texto(int segundos, int minutos, int horas)
+        private static string Texto(IDictionary<EUnidad, int> tiempos)
         {
-            string _segundos, _minutos, _horas;
-            _segundos = Parte(segundos, "s");
-            _minutos = Parte(minutos, "m");
-            _horas = Parte(horas, "h");
-            return $"{_horas}{_minutos}{_segundos}".Trim();
+            var unidades = Calculos.PreparacionUnidades();
+            var valores = Calculos.PreparacionValores<string>(unidades);
+            var keys = tiempos.Keys.ToList();
+            var retorno = string.Empty;
+            keys.Reverse();
+
+            keys.ForEach(k =>
+            {
+                valores[k] = Parte(tiempos[k], unidades[k]);
+            });
+
+            keys.ForEach(k =>
+            {
+                retorno += valores[k];
+            });
+            return retorno.Trim();
         }
         public static string Parte(int cantidad, string unidad)
         {
